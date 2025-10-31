@@ -1,0 +1,89 @@
+# Gitignore for Fotolisico PHP project (XAMPP)
+# Purpose: ignore local environment files, generated files, uploads, IDE files, OS files, dependencies and build artifacts.
+
+### OS generated files ###
+# Windows thumbnail cache
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+### PHP / Composer ###
+# Composer vendor dir
+/vendor/
+
+# Composer auth / env
+/composer.lock
+/.env
+
+### XAMPP / local config ###
+# Local config files that may contain credentials
+config.php
+connection.php
+
+# If you keep a sample config in repo, ignore local overrides
+config.local.php
+config/*.local.php
+
+### Uploaded files and user content ###
+# Ignore the uploads directory (user-submitted media)
+/uploads/
+
+### Logs and temporary files ###
+*.log
+logs/
+tmp/
+temp/
+cache/
+*.cache
+
+### PHPStorm / JetBrains IDE ###
+.idea/
+
+### VS Code ###
+.vscode/
+
+### Node / frontend ###
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Build artifacts ###
+dist/
+build/
+public/build/
+
+### Archives and binaries ###
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+### Images generated / workspace caches ###
+*.orig
+
+### Database files ###
+*.sql
+*.sqlite
+
+### Sensitive files that should not be committed ###
+# Private keys, certificates
+*.pem
+*.key
+
+### Others ###
+# PHPUnit cache and build results
+.phpunit.result.cache
+
+# Composer installed artifacts
+/composer.phar
+
+# Ignore automatically generated IDE launch configs
+/.vscode/*launch.json
+
+# End of .gitignore
