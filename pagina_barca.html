@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yacht di Lusso Aurora - DreamDay</title>
+  <!-- TailwindCSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/svg" href="dreeam_day_bianco.png">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f8fafc; }
+    .navbar { background: rgba(23,37,84,0.92); backdrop-filter: blur(8px); }
+    .card { transition: transform .22s ease, box-shadow .22s ease; }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(16,24,40,0.12); }
+    .boat-details { display:none; }
+    .boat-details.active { display:block; animation: fadeIn .18s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px);} to { opacity: 1; transform: translateY(0);} }
+    button, select { -webkit-tap-highlight-color: transparent; }
+    .card-shadow {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-shadow:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    .dropdown-anim {
+      transform: translateY(-10px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .dropdown-anim.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    #description-container {
+      transition: max-height 0.3s ease;
+    }
+    .thumb {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .video-thumb::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      background: black;
+      border-radius: 50%;
+      z-index: 10;
+    }
+    .video-thumb::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-left: 16px solid white;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      z-index: 11;
+    }
+    .main-container.vertical {
+      aspect-ratio: 9/16;
+      max-height: 60vh;
+      margin-left: 0;
+    }
+    .main-container.horizontal {
+      aspect-ratio: 16/9;
+    }
+    .thumb.loading {
+      background-color: #e5e7eb;
+    }
+    .footer-links a{
+      text-decoration: underline;
+      color: red;
+    }
+
+    /* Thumbnail responsive */
+    #gallery .thumb {
+      width: 6rem;
+      height: 6rem;
+    }
+    @media (max-width: 640px) {
+      #gallery .thumb {
+        width: 4rem;
+        height: 4rem;
+      }
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+  <!-- Navbar -->
+  <nav class="navbar">
+  <a href="pagina_principale_finale.html">
+    <div class="navbar-brand">
+      <span>DreamDay</span>
+      <img src="logo-ufficiale.png" class="logo" alt="DreamDay Logo">
+    </div></a>
+    <div class="relative">
+      <button id="dropdown-toggle" class="flex items-center text-white focus:outline-none">
+        <span class="mr-2 hidden sm:inline">Menu</span>
+        <svg id="nav-icon" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div id="dropdown-menu" class="absolute right-0 mt-2 w-44 bg-blue-900 text-white rounded-lg shadow-lg hidden dropdown-anim z-50 flex-col">
+        <a href="pagina_principale_finale.html" class="block px-4 py-2 hover:bg-blue-800 rounded-t-lg">Home</a>
+        <!-- Voce con sottomenu -->
+        <div class="relative group">
+          <button id="sub-toggle" class="block w-full text-left px-4 py-2 hover:bg-blue-800 flex justify-between items-center">
+            Barche
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          <!-- Sottomenu -->
+          <div id="sub-menu" class="absolute right-full top-0 ml-1 w-40 bg-blue-900 rounded-lg shadow-lg hidden flex-col dropdown-anim">
+            <a href="catalogo_noleggio.html" class="block px-4 py-2 hover:bg-blue-800 rounded-t-lg">Noleggio</a>
+            <a href="catalogo.html" class="block px-4 py-2 hover:bg-blue-800 rounded-b-lg">Acquisto</a>
+          </div>
+        </div>
+        <a href="messaggistica.html" class="block px-4 py-2 hover:bg-blue-800 rounded-b-lg">Contattaci</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sezione principale -->
+  <section class="pt-28 max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+    <!-- Galleria -->
+    <div>
+      <div id="mainContainer" class="relative mb-4 main-container horizontal">
+        <div id="mainMedia"></div>
+        <button id="prev-btn" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-colors z-10">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button id="next-btn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-colors z-10">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+      <div id="gallery" class="flex flex-wrap gap-4 justify-center"></div>
+    </div>
+
+    <!-- Dettagli -->
+    <div>
+      <h2 class="text-3xl font-bold text-blue-900 mb-4">Yacht di Lusso Aurora</h2>
+      <p class="text-gray-700 text-lg mb-4">
+        L’Aurora è uno yacht di 20 metri progettato per garantire comfort, prestazioni e design raffinato.
+        Gli interni in mogano e la tecnologia di bordo di ultima generazione offrono un’esperienza unica in mare.
+      </p>
+      <ul class="list-disc pl-6 text-gray-700 mb-6 space-y-2">
+        <li>Lunghezza: 20 metri</li>
+        <li>Motore: 2x 1200 HP Diesel</li>
+        <li>Velocità massima: 35 nodi</li>
+        <li>Posti letto: 8</li>
+        <li>Anno di costruzione: 2023</li>
+      </ul>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+        <span class="text-3xl font-extrabold text-blue-700">€1.200.000</span>
+        <button onclick="window.location.href='messaggistica.html'" class="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-lg shadow-md transition cursor-pointer text-center w-full sm:w-auto">
+          Richiedi informazioni
+        </button>
+      </div>
+      <div class="p-6 bg-white rounded-xl shadow-lg card-shadow">
+        <h3 class="text-xl font-semibold text-blue-900 mb-3">Descrizione completa</h3>
+        <div id="description-container" class="text-gray-700 mb-3 overflow-hidden" style="max-height: 4em; line-height: 1.5;">
+          Lo yacht Aurora combina eleganza e tecnologia all'avanguardia. Dispone di suite matrimoniali, cucina di design, zona relax panoramica e sistemi di navigazione di ultima generazione.
+          Ideale per crociere di lusso e viaggi privati con stile e sicurezza.
+        </div>
+        <button id="expand-btn" onclick="toggleDescription()" class="text-blue-600 hover:text-blue-800 text-sm font-medium focus:outline-none bg-blue-100 px-3 py-1 rounded-full hover:bg-blue-200 transition-colors">
+          Altro...
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione consigli -->
+<section class="bg-gray-100 py-12 px-6">
+  <h2 class="text-2xl font-bold text-center text-blue-900 mb-8">Potrebbero interessarti anche</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    
+    <a href="https://sito-yacht-elite.com" target="_blank" class="block bg-white rounded-xl shadow-lg card-shadow overflow-hidden hover:shadow-2xl transition-shadow">
+      <img src="https://source.unsplash.com/random/400x300/?yacht,luxury2" alt="Barca simile" class="w-full h-48 object-cover">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold text-blue-900">Yacht Elite</h3>
+        <p class="text-gray-600 mt-2">Un elegante yacht con interni moderni e ottime prestazioni.</p>
+        <p class="text-blue-600 font-bold mt-3">€980.000</p>
+      </div>
+    </a>
+
+    <a href="https://sito-mistral55.com" target="_blank" class="block bg-white rounded-xl shadow-lg card-shadow overflow-hidden hover:shadow-2xl transition-shadow">
+      <img src="https://source.unsplash.com/random/400x300/?yacht,modern" alt="Barca simile" class="w-full h-48 object-cover">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold text-blue-900">Mistral 55</h3>
+        <p class="text-gray-600 mt-2">Perfetta combinazione tra comfort e potenza marina.</p>
+        <p class="text-blue-600 font-bold mt-3">€1.050.000</p>
+      </div>
+    </a>
+
+    <a href="https://sito-poseidonlx.com" target="_blank" class="block bg-white rounded-xl shadow-lg card-shadow overflow-hidden hover:shadow-2xl transition-shadow">
+      <img src="https://source.unsplash.com/random/400x300/?yacht,interior" alt="Barca simile" class="w-full h-48 object-cover">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold text-blue-900">Poseidon LX</h3>
+        <p class="text-gray-600 mt-2">Design imponente e tecnologia marina di ultima generazione.</p>
+        <p class="text-blue-600 font-bold mt-3">€1.300.000</p>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer class="bg-blue-900 text-white py-6 mt-10">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <div class="copyright">
+        © <span id="year">2025</span> DreamDay <br> Riproduzione, distribuzione e utilizzo dei contenuti <br> sono vietati senza previa autorizzazione.
+        <div class="footer-links">
+          <a href="privacy-policy.html">Privacy Policy</a> | 
+          <a href="term-of-service.html">Termini di Servizio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar JS
+    const dropdownToggle = document.getElementById("dropdown-toggle");
+    const dropdownMenu = document.getElementById("dropdown-menu");
+    const dropdownIcon = document.getElementById("nav-icon");
+    dropdownToggle.addEventListener("click", () => {
+        const hidden = dropdownMenu.classList.contains("hidden");
+        dropdownMenu.classList.toggle("hidden");
+        dropdownIcon.classList.toggle("rotate-180");
+        if (hidden) setTimeout(() => dropdownMenu.classList.add("show"), 10);
+        else dropdownMenu.classList.remove("show");
+    });
+    // --- Chiudi cliccando fuori ---
+    document.addEventListener("click", (e) => {
+        if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.classList.add("hidden");
+            dropdownMenu.classList.remove("show");
+            dropdownIcon.classList.remove("rotate-180");
+            subMenu.classList.add("hidden");
+            subIcon.classList.remove("rotate-90");
+        }
+    });
+    // --- Secondo menu (Barche) ---
+    const subToggle = document.getElementById("sub-toggle");
+    const subMenu = document.getElementById("sub-menu");
+    const subIcon = subToggle.querySelector("svg");
+    subToggle.addEventListener("click", (e) => {
+        e.stopPropagation(); // evita chiusura del menu principale
+        subMenu.classList.toggle("hidden");
+        subIcon.classList.toggle("rotate-90");
+        if (!subMenu.classList.contains("hidden")) {
+            setTimeout(() => subMenu.classList.add("show"), 10);
+        } else {
+            subMenu.classList.remove("show");
+        }
+    });
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Video thumbnail generator
+    function generateThumbnail(videoUrl, callback) {
+      const video = document.createElement('video');
+      video.src = videoUrl;
+      video.muted = true;
+      video.preload = 'metadata';
+      video.addEventListener('loadedmetadata', () => { video.currentTime = 0.1; });
+      video.addEventListener('seeked', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth || 96;
+        canvas.height = video.videoHeight || 96;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        callback(dataUrl);
+        video.remove();
+      });
+      video.addEventListener('error', () => { callback('https://via.placeholder.com/96x96?text=Video'); video.remove(); });
+      video.load();
+    }
+
+    const media = [
+      {type: 'image', src: 'anale1.jpg'},
+      {type: 'video', src: 'videobarca.mp4'},
+      {type: 'image', src: 'anale2.jpg'},
+      {type: 'image', src: 'anale3.jpg'},
+      {type: 'image', src: 'anale4.jpg'},
+      {type: 'image', src: 'anale5.jpg'},
+      {type: 'image', src: 'anale6.jpg'},
+      {type: 'image', src: 'anale7.jpg'},
+      {type: 'image', src: 'anale8.jpg'},
+      {type: 'image', src: 'saver.jpg'},
+      {type: 'image', src: 'saver2.jpg'}
+    ];
+    let currentIndex = 0;
+    let showAll = false;
+    let videoPosters = {};
+
+    const videoItem = media.find(item => item.type === 'video');
+    if (videoItem) {
+      generateThumbnail(videoItem.src, (thumb) => {
+        videoPosters[videoItem.src] = thumb;
+        videoItem.poster = thumb;
+        renderThumbs();
+      });
+      videoItem.tempPoster = 'anale1.jpg';
+    }
+
+    function updateMain() {
+      const mainContainer = document.getElementById('mainContainer');
+      const mainMedia = document.getElementById('mainMedia');
+      mainMedia.innerHTML = '';
+      const item = media[currentIndex];
+      let element;
+      let isVertical = false;
+      if(item.type === 'image') {
+        element = document.createElement('img');
+        element.src = item.src;
+        element.alt = 'Media';
+        element.className = 'w-full h-full object-contain rounded-xl shadow-lg';
+      } else {
+        element = document.createElement('video');
+        element.src = item.src;
+        element.poster = videoPosters[item.src] || '';
+        element.className = 'w-full h-full object-contain rounded-xl shadow-lg';
+        element.controls = true;
+        element.addEventListener('loadedmetadata', () => {
+          isVertical = element.videoHeight > element.videoWidth;
+          updateAspectRatio(mainContainer, isVertical);
+        }, {once:true});
+      }
+      mainMedia.appendChild(element);
+      updateAspectRatio(mainContainer, isVertical);
+      renderThumbs();
+    }
+
+    function updateAspectRatio(container, isVertical){
+      if(isVertical){
+        container.classList.remove('horizontal');
+        container.classList.add('vertical');
+      } else {
+        container.classList.remove('vertical');
+        container.classList.add('horizontal');
+      }
+    }
+
+    function renderThumbs(){
+      const gallery = document.getElementById('gallery');
+      gallery.innerHTML = '';
+      const count = showAll ? media.length : Math.min(8, media.length);
+      for(let i=0;i<count;i++){
+        const item = media[i];
+        const thumb = document.createElement('div');
+        let thumbSrc = item.type==='image'?item.src:videoPosters[item.src]||item.tempPoster||'https://via.placeholder.com/96x96?text=Video';
+        if(!videoPosters[item.src] && item.type==='video'){
+          thumb.classList.add('loading');
+          generateThumbnail(item.src,(thumbData)=>{
+            videoPosters[item.src] = thumbData;
+            if(thumb.style.backgroundImage!==`url(${thumbData})`){
+              thumb.style.backgroundImage=`url(${thumbData})`;
+              thumb.classList.remove('loading');
+            }
+          });
+        }
+        thumb.style.backgroundImage = `url(${thumbSrc})`;
+        let thumbClass = `thumb rounded-lg cursor-pointer border-2 ${i===currentIndex?'border-blue-600':'border-transparent hover:border-blue-600'}`;
+        if(item.type==='video') thumbClass+=' video-thumb';
+        thumb.className = thumbClass;
+        thumb.dataset.index=i;
+        thumb.addEventListener('click',(e)=>{
+          e.preventDefault();
+          const currentVideo = document.querySelector('video');
+          if(currentVideo && !currentVideo.paused) currentVideo.pause();
+          currentIndex=parseInt(thumb.dataset.index);
+          updateMain();
+        });
+        gallery.appendChild(thumb);
+      }
+      if(media.length>8){
+        const btn = document.createElement('button');
+        btn.textContent = showAll?'Riduci':'Altro...';
+        btn.className='mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors';
+        btn.onclick=()=>{showAll=!showAll; renderThumbs();}
+        gallery.appendChild(btn);
+      }
+    }
+
+    document.getElementById('prev-btn').addEventListener('click',(e)=>{
+      e.preventDefault();
+      const currentVideo = document.querySelector('video');
+      if(currentVideo && !currentVideo.paused) currentVideo.pause();
+      currentIndex=(currentIndex-1+media.length)%media.length;
+      updateMain();
+    });
+
+    document.getElementById('next-btn').addEventListener('click',(e)=>{
+      e.preventDefault();
+      const currentVideo = document.querySelector('video');
+      if(currentVideo && !currentVideo.paused) currentVideo.pause();
+      currentIndex=(currentIndex+1)%media.length;
+      updateMain();
+    });
+
+    renderThumbs();
+    updateMain();
+
+    // Toggle descrizione
+    let isExpanded=false;
+    function toggleDescription(){
+      const container=document.getElementById('description-container');
+      const btn=document.getElementById('expand-btn');
+      if(!isExpanded){
+        container.style.maxHeight=container.scrollHeight+'px';
+        btn.textContent='Riduci';
+        isExpanded=true;
+      } else {
+        container.style.maxHeight='4em';
+        btn.textContent='Altro...';
+        isExpanded=false;
+      }
+    }
+  </script>
+</body>
+</html>

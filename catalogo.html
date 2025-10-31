@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <!--favicon-->
+    <link rel="shortcut icon" type="image/svg" href="dreeam_day_bianco.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamDay - Catalogo Barche</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f8fafc; }
+        .navbar { background: rgba(23,37,84,0.92); backdrop-filter: blur(8px); }
+        .card { transition: transform .22s ease, box-shadow .22s ease; }
+        .card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(16,24,40,0.12); }
+        .boat-details { display:none; }
+        .boat-details.active { display:block; animation: fadeIn .18s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px);} to { opacity: 1; transform: translateY(0);} }
+        button, select, input { -webkit-tap-highlight-color: transparent; }
+        .hero-bg { height: 50vh !important; }
+        @media (max-width:640px){ .hero-bg { height:40vh !important; } }
+        .reset-filters {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .reset-filters::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .reset-filters:hover::before {
+            left: 100%;
+        }
+        .reset-filters:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="pagina_principale_finale.html"> 
+        <div class="navbar-brand">
+            DreamDay
+            <img src="logo-ufficiale.png" id="Logo" class="logo" alt="DreamDay Logo">
+        </div> </a>
+        <div class="relative">
+            <button id="dropdown-toggle" class="flex items-center text-white focus:outline-none">
+                <span class="mr-2">Menu</span>
+                <svg id="nav-icon" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div id="dropdown-menu" class="absolute right-0 mt-2 w-44 bg-blue-900 text-white rounded-lg shadow-lg hidden dropdown-anim z-50 flex-col">
+                <a href="pagina_principale_finale.html" class="block px-4 py-2 hover:bg-blue-800 rounded-t-lg">Home</a>
+                <!-- Voce con sottomenu -->
+                <div class="relative group">
+                    <button id="sub-toggle" class="block w-full text-left px-4 py-2 hover:bg-blue-800 flex justify-between items-center">
+                        Barche
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <!-- Sottomenu -->
+                    <div id="sub-menu" class="absolute right-full top-0 ml-1 w-40 bg-blue-900 rounded-lg shadow-lg hidden flex-col dropdown-anim">
+                        <a href="catalogo_noleggio.html" class="block px-4 py-2 hover:bg-blue-800 rounded-t-lg">Noleggio</a>
+                        <a href="catalogo.html" class="block px-4 py-2 hover:bg-blue-800 rounded-b-lg">Acquisto</a>
+                    </div>
+                </div>
+                <a href="messaggistica.html" class="block px-4 py-2 hover:bg-blue-800 rounded-b-lg">Contattaci</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero-bg bg-gradient-to-b from-blue-900 to-blue-700 text-white text-center flex items-center justify-center">
+        <div class="content">
+            <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight">Catalogo Barche</h1>
+            <p class="mt-2 text-sm sm:text-lg">Sfoglia tutte le imbarcazioni disponibili e scegli la tua preferita!</p>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <!-- TITOLI + COUNT + RESET DESKTOP -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <h2 class="text-3xl font-bold">Le Nostre Barche</h2>
+            <div class="flex items-center gap-4">
+                <span id="count-desktop" class="text-sm text-gray-600 hidden md:inline">-- barche</span>
+                <button id="reset-desktop" class="reset-filters text-white px-6 py-3 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center font-medium hidden md:inline">Reset Filtri</button>
+            </div>
+        </div>
+
+        <!-- MOTORE DI RICERCA -->
+        <section class="mb-8">
+            <div class="relative">
+                <input type="text" id="search-input" placeholder="Cerca per nome barca..." class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out">
+                <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+        </section>
+
+        <!-- FILTRI -->
+        <section class="mb-8">
+            <div class="relative w-full">
+                <button id="filter-toggle" class="flex items-center justify-between w-full bg-white text-gray-700 text-sm border border-gray-300 rounded-lg pl-3 pr-10 py-2 shadow-sm transition duration-150 ease-in-out hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <span>Filtri</span>
+                    <svg id="filter-icon" class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div id="filter-dropdown" class="absolute left-0 mt-2 w-full bg-white text-gray-800 rounded-lg shadow-lg hidden flex-col dropdown-anim border border-gray-200 overflow-hidden z-20">
+                    <div class="p-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-1 sm:gap-2 md:gap-3">
+                            <!-- Tipo -->
+                            <div class="relative">
+                                <select id="type-filter" class="w-full bg-white text-gray-700 text-sm border border-gray-300 rounded-lg pl-3 pr-10 py-2 shadow-sm transition duration-150 ease-in-out hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
+                                    <option value="all">Tutti i tipi</option>
+                                    <option value="yacht">Yacht</option>
+                                    <option value="gommoni">Gommoni</option>
+                                    <option value="vela">Barche a vela</option>
+                                    <option value="motore">Barche a motore</option>
+                                </select>
+                                <svg class="pointer-events-none absolute top-1/2 right-3 transform -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
+                            <!-- Prezzo -->
+                            <div class="relative">
+                                <select id="price-filter" class="w-full bg-white text-gray-700 text-sm border border-gray-300 rounded-lg pl-3 pr-10 py-2 shadow-sm transition duration-150 ease-in-out hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
+                                    <option value="all">Tutti i prezzi</option>
+                                    <option value="low">Fino a €1.000.000</option>
+                                    <option value="medium">€1.000.000 - €2.000.000</option>
+                                    <option value="high">Oltre €2.000.000</option>
+                                </select>
+                                <svg class="pointer-events-none absolute top-1/2 right-3 transform -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
+                            <!-- Persone -->
+                            <div class="relative">
+                                <select id="people-filter" class="w-full bg-white text-gray-700 text-sm border border-gray-300 rounded-lg pl-3 pr-10 py-2 shadow-sm transition duration-150 ease-in-out hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
+                                    <option value="all">Tutte le capienze</option>
+                                    <option value="2-4">2 - 4 persone</option>
+                                    <option value="5-8">5 - 8 persone</option>
+                                    <option value="9+">9+ persone</option>
+                                </select>
+                                <svg class="pointer-events-none absolute top-1/2 right-3 transform -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
+                            <!-- Marca -->
+                            <div class="relative">
+                                <select id="brand-filter" class="w-full bg-white text-gray-700 text-sm border border-gray-300 rounded-lg pl-3 pr-10 py-2 shadow-sm transition duration-150 ease-in-out hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
+                                    <option value="all">Tutte le marche</option>
+                                    <option value="azimut">Azimut</option>
+                                    <option value="ferretti">Ferretti</option>
+                                    <option value="riva">Riva</option>
+                                    <option value="zodiac">Zodiac</option>
+                                    <option value="sunseeker">Sunseeker</option>
+                                    <option value="princess">Princess</option>
+                                    <option value="novamarine">Novamarine</option>
+                                    <option value="overmarine">Overmarine</option>
+                                    <option value="beneteau">Beneteau</option>
+                                    <option value="sea ray">Sea Ray</option>
+                                    <option value="absolute">Absolute</option>
+                                    <option value="jeanneau">Jeanneau</option>
+                                    <option value="capelli">Capelli</option>
+                                </select>
+                                <svg class="pointer-events-none absolute top-1/2 right-3 transform -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
+                            <!-- Motore -->
+                            <div class="relative">
+                                <select id="engine-filter" class="w-full bg-white text-gray-700 text-sm border border-gray-300 rounded-lg pl-3 pr-10 py-2 shadow-sm transition duration-150 ease-in-out hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer">
+                                    <option value="all">Tutti i motori</option>
+                                    <option value="low">Fino a 2000 HP</option>
+                                    <option value="medium">2001 - 2500 HP</option>
+                                    <option value="high">Oltre 2500 HP</option>
+                                </select>
+                                <svg class="pointer-events-none absolute top-1/2 right-3 transform -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- COUNT E RESET PER MOBILE, SOTTO I FILTRI -->
+            <div id="mobile-count-reset" class="flex items-center gap-4 justify-center md:hidden mb-6 pt-4">
+                <span id="count-mobile" class="text-sm text-gray-600">-- barche</span>
+                <button id="reset-mobile" class="reset-filters text-white px-6 py-3 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center font-medium">Reset Filtri</button>
+            </div>
+        </section>
+
+        <!-- SORT DESKTOP A SINISTRA SOPRA LA RICERCA -->
+        <section class="py-4 hidden md:block">
+            <div class="filtro-container flex items-center justify-start gap-2">
+                <label class="font-semibold text-gray-700">Ordina per:</label>
+                <div class="relative">
+                    <button id="sort-toggle" class="flex items-center border border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200">
+                        <span id="sort-text" class="mr-2">Predefinito</span>
+                        <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div id="sort-dropdown" class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg hidden flex-col dropdown-anim border border-gray-200 overflow-hidden z-20">
+                        <button data-sort="default" class="block px-4 py-2 hover:bg-gray-100 w-full text-left rounded-t-lg focus:outline-none focus:bg-gray-100">Predefinito</button>
+                        <button data-sort="priceAsc" class="block px-4 py-2 hover:bg-gray-100 w-full text-left focus:outline-none focus:bg-gray-100">Prezzo crescente</button>
+                        <button data-sort="priceDesc" class="block px-4 py-2 hover:bg-gray-100 w-full text-left rounded-b-lg focus:outline-none focus:bg-gray-100">Prezzo decrescente</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SORT MOBILE SOTTO I FILTRI A SINISTRA -->
+        <section class="py-4 md:hidden">
+            <div class="filtro-container flex items-center justify-start gap-2">
+                <label class="font-semibold text-gray-700">Ordina per:</label>
+                <div class="relative">
+                    <button id="sort-toggle-mobile" class="flex items-center border border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200">
+                        <span id="sort-text-mobile" class="mr-2">Predefinito</span>
+                        <svg class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div id="sort-dropdown-mobile" class="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-lg shadow-lg hidden flex-col dropdown-anim border border-gray-200 overflow-hidden z-20">
+                        <button data-sort="default" class="block px-4 py-2 hover:bg-gray-100 w-full text-left rounded-t-lg focus:outline-none focus:bg-gray-100">Predefinito</button>
+                        <button data-sort="priceAsc" class="block px-4 py-2 hover:bg-gray-100 w-full text-left focus:outline-none focus:bg-gray-100">Prezzo crescente</button>
+                        <button data-sort="priceDesc" class="block px-4 py-2 hover:bg-gray-100 w-full text-left rounded-b-lg focus:outline-none focus:bg-gray-100">Prezzo decrescente</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Griglia catalogo -->
+        <section>
+            <div id="catalog-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                <!-- JS genera le barche -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-6 mt-10">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="copyright">
+                © <span id="year">2025</span> DreamDay <br> Riproduzione, distribuzione e utilizzo dei contenuti <br> sono vietati senza previa autorizzazione.
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a> | 
+                    <a href="term-of-service.html">Termini di Servizio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+      <script>
+          document.addEventListener("contextmenu",function(event){
+            alert("Inspect Elements Not Allowed");
+            event.preventDefault();
+          })</script>
+    
+    <script>
+        // Lista delle barche
+        let boats = [
+            { name: "Saver 330 Sport", price: 69500, img: "anale1.jpg", len: "20m", power: "2x1200hp", people: 8, year: 2023, type: "yacht", brand: "azimut", pageUrl: "Saver_330.html" },
+            { name: "Ocean Pearl", price: 980000, img: "https://source.unsplash.com/random/400x300/?yacht,2", len: "18m", power: "2x1000hp", people: 6, year: 2022, type: "yacht", brand: "ferretti", pageUrl: "ocean-pearl.html" },
+            { name: "Blue Horizon", price: 1450000, img: "https://source.unsplash.com/random/400x300/?yacht,3", len: "22m", power: "2x1300hp", people: 10, year: 2024, type: "vela", brand: "riva", pageUrl: "blue-horizon.html" },
+            { name: "Sea Dream", price: 870000, img: "https://source.unsplash.com/random/400x300/?boat,4", len: "15m", power: "2x800hp", people: 6, year: 2021, type: "gommoni", brand: "zodiac", pageUrl: "sea-dream.html" },
+            { name: "Marina Star", price: 1100000, img: "https://source.unsplash.com/random/400x300/?boat,5", len: "19m", power: "2x1100hp", people: 8, year: 2023, type: "motore", brand: "sunseeker", pageUrl: "marina-star.html" },
+            { name: "Golden Wave", price: 2300000, img: "https://source.unsplash.com/random/400x300/?boat,6", len: "25m", power: "2x1500hp", people: 12, year: 2024, type: "yacht", brand: "princess", pageUrl: "golden-wave.html" },
+            { name: "Aqua Spirit", price: 740000, img: "https://source.unsplash.com/random/400x300/?boat,7", len: "14m", power: "2x700hp", people: 5, year: 2021, type: "gommoni", brand: "novamarine", pageUrl: "aqua-spirit.html" },
+            { name: "Sea Legend", price: 1900000, img: "https://source.unsplash.com/random/400x300/?yacht,8", len: "23m", power: "2x1400hp", people: 9, year: 2024, type: "yacht", brand: "overmarine", pageUrl: "sea-legend.html" },
+            { name: "Coral Queen", price: 1050000, img: "https://source.unsplash.com/random/400x300/?yacht,9", len: "18m", power: "2x1000hp", people: 7, year: 2022, type: "vela", brand: "beneteau", pageUrl: "coral-queen.html" },
+            { name: "Oceanic Breeze", price: 1670000, img: "https://source.unsplash.com/random/400x300/?boat,10", len: "21m", power: "2x1200hp", people: 9, year: 2023, type: "motore", brand: "sea ray", pageUrl: "oceanic-breeze.html" },
+            // Altre barche extra
+            { name: "Silver Wind", price: 1350000, img: "https://source.unsplash.com/random/400x300/?boat,11", len: "20m", power: "2x1100hp", people: 8, year: 2023, type: "yacht", brand: "absolute", pageUrl: "silver-wind.html" },
+            { name: "Ocean Star", price: 1850000, img: "https://source.unsplash.com/random/400x300/?boat,12", len: "24m", power: "2x1400hp", people: 10, year: 2024, type: "vela", brand: "jeanneau", pageUrl: "ocean-star.html" },
+            { name: "Blue Wave", price: 970000, img: "https://source.unsplash.com/random/400x300/?boat,13", len: "16m", power: "2x900hp", people: 6, year: 2022, type: "gommoni", brand: "capelli", pageUrl: "blue-wave.html" }
+        ];
+        const grid = document.getElementById('catalog-grid');
+        let currentSort = 'default';
+        function renderBoats(list){
+            grid.innerHTML = '';
+            if(!list.length){
+                grid.innerHTML = '<div class="col-span-full bg-white p-6 rounded-lg text-center text-gray-600">Nessuna barca trovata.</div>';
+                const countText = '0 barche';
+                document.getElementById('count-desktop').textContent = countText;
+                document.getElementById('count-mobile').textContent = countText;
+                return;
+            }
+            list.forEach((b, i) => {
+                const card = document.createElement('div');
+                card.className = 'card bg-white rounded-xl shadow-md overflow-hidden cursor-pointer';
+                card.addEventListener('click', () => { if(b.pageUrl) window.location.href = b.pageUrl; });
+                card.innerHTML = `
+                    <img src="${b.img}" alt="${b.name}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-xl font-semibold text-blue-900">${b.name}</h3>
+                                <p class="text-gray-500 text-sm mt-1">${b.len} • ${b.people} persone</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-blue-600 font-bold">€${b.price.toLocaleString()}</div>
+                                <div class="text-xs text-gray-400 mt-1">${b.year}</div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button data-index="${i}" class="details-btn mt-2 bg-blue-600 text-white py-1.5 px-3 rounded hover:bg-blue-700 text-sm w-full">Dettagli</button>
+                            <div id="details-${i}" class="boat-details mt-3 bg-blue-50 p-3 rounded text-sm">
+                                <ul class="list-disc pl-5 text-gray-700">
+                                    <li>Tipo: ${capitalize(b.type)}</li>
+                                    <li>Marca: ${capitalize(b.brand)}</li>
+                                    <li>Motore: ${b.power}</li>
+                                    <li>Anno: ${b.year}</li>
+                                    <li>Capacità: ${b.people} persone</li>
+                                </ul>
+                                <div class="mt-3 flex justify-end">
+                                    <button data-index-close="${i}" class="reduce-btn bg-gray-300 text-gray-800 px-3 py-1 rounded hover:bg-gray-400 text-sm">Riduci</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            const countText = `${list.length} ${list.length === 1 ? 'barca' : 'barche'}`;
+            document.getElementById('count-desktop').textContent = countText;
+            document.getElementById('count-mobile').textContent = countText;
+            document.querySelectorAll('.details-btn').forEach(btn => {
+                btn.addEventListener('click', (ev) => {
+                    ev.stopPropagation();
+                    const idx = btn.getAttribute('data-index');
+                    const det = document.getElementById(`details-${idx}`);
+                    det.classList.toggle('active');
+                    if(det.classList.contains('active')) det.scrollIntoView({behavior:'smooth', block:'center'});
+                });
+            });
+            document.querySelectorAll('.reduce-btn').forEach(btn => {
+                btn.addEventListener('click', (ev) => {
+                    ev.stopPropagation();
+                    const idx = btn.getAttribute('data-index-close');
+                    const det = document.getElementById(`details-${idx}`);
+                    det.classList.remove('active');
+                });
+            });
+        }
+        function capitalize(s){ return typeof s === 'string' ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+        function getFilteredList(){
+            const t = typeFilter.value, p = priceFilter.value, pe = peopleFilter.value, brand = brandFilter.value, e = engineFilter.value;
+            const searchTerm = searchInput.value.toLowerCase();
+            return boats.filter(b => {
+                const typeOk = t === 'all' || b.type === t;
+                let peopleOk = true;
+                if(pe !== 'all'){
+                    if(pe === '2-4') peopleOk = b.people <= 4;
+                    else if(pe === '5-8') peopleOk = b.people >=5 && b.people <=8;
+                    else if(pe === '9+') peopleOk = b.people >= 9;
+                }
+                let priceOk = true;
+                if(p !== 'all'){
+                    if(p === 'low') priceOk = b.price <= 1000000;
+                    else if(p === 'medium') priceOk = b.price > 1000000 && b.price <= 2000000;
+                    else if(p === 'high') priceOk = b.price > 2000000;
+                }
+                const brandOk = brand === 'all' || b.brand === brand;
+                let engineOk = true;
+                if(e !== 'all'){
+                    const match = b.power.match(/(\d+)x(\d+)hp/);
+                    if(match){
+                        const numEngines = parseInt(match[1]);
+                        const hpPer = parseInt(match[2]);
+                        const totalHp = numEngines * hpPer;
+                        if(e === 'low') engineOk = totalHp <= 2000;
+                        else if(e === 'medium') engineOk = totalHp > 2000 && totalHp <= 2500;
+                        else if(e === 'high') engineOk = totalHp > 2500;
+                    }
+                }
+                const searchOk = searchTerm === '' || b.name.toLowerCase().includes(searchTerm);
+                return typeOk && peopleOk && priceOk && brandOk && engineOk && searchOk;
+            });
+        }
+        function applyFiltersAndSort(){
+            let filtered = getFilteredList();
+            let sorted = [...filtered];
+            if (currentSort === 'priceAsc') {
+                sorted.sort((a, b) => a.price - b.price);
+            } else if (currentSort === 'priceDesc') {
+                sorted.sort((a, b) => b.price - a.price);
+            }
+            renderBoats(sorted);
+        }
+        renderBoats(boats);
+        const searchInput = document.getElementById('search-input');
+        const typeFilter = document.getElementById('type-filter');
+        const priceFilter = document.getElementById('price-filter');
+        const peopleFilter = document.getElementById('people-filter');
+        const brandFilter = document.getElementById('brand-filter');
+        const engineFilter = document.getElementById('engine-filter');
+        const resetBtns = document.querySelectorAll('.reset-filters');
+        [typeFilter, priceFilter, peopleFilter, brandFilter, engineFilter].forEach(el => el.addEventListener('change', applyFiltersAndSort));
+        searchInput.addEventListener('input', applyFiltersAndSort);
+        resetBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                typeFilter.value = 'all';
+                priceFilter.value = 'all';
+                peopleFilter.value = 'all';
+                brandFilter.value = 'all';
+                engineFilter.value = 'all';
+                searchInput.value = '';
+                currentSort = 'default';
+                document.getElementById('sort-text').textContent = 'Predefinito';
+                document.getElementById('sort-text-mobile').textContent = 'Predefinito';
+                applyFiltersAndSort();
+                btn.focus();
+            });
+        });
+        // Desktop sort
+        const sortToggle = document.getElementById('sort-toggle');
+        const sortDropdown = document.getElementById('sort-dropdown');
+        const sortText = document.getElementById('sort-text');
+        const sortIcon = sortToggle ? sortToggle.querySelector('svg') : null;
+        if (sortToggle) {
+            sortToggle.addEventListener('click', () => {
+                const isHidden = sortDropdown.classList.contains('hidden');
+                sortDropdown.classList.toggle('hidden');
+                sortIcon.classList.toggle('rotate-180');
+                if (isHidden) setTimeout(() => sortDropdown.classList.add('show'), 10);
+                else sortDropdown.classList.remove('show');
+            });
+        }
+        // Mobile sort
+        const sortToggleMobile = document.getElementById('sort-toggle-mobile');
+        const sortDropdownMobile = document.getElementById('sort-dropdown-mobile');
+        const sortTextMobile = document.getElementById('sort-text-mobile');
+        const sortIconMobile = sortToggleMobile ? sortToggleMobile.querySelector('svg') : null;
+        if (sortToggleMobile) {
+            sortToggleMobile.addEventListener('click', () => {
+                const isHidden = sortDropdownMobile.classList.contains('hidden');
+                sortDropdownMobile.classList.toggle('hidden');
+                sortIconMobile.classList.toggle('rotate-180');
+                if (isHidden) setTimeout(() => sortDropdownMobile.classList.add('show'), 10);
+                else sortDropdownMobile.classList.remove('show');
+            });
+        }
+        // Gestione opzioni ordinamento (per entrambi)
+        document.querySelectorAll('[data-sort]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const value = e.target.dataset.sort;
+                currentSort = value;
+                if (sortText) sortText.textContent = e.target.textContent;
+                if (sortTextMobile) sortTextMobile.textContent = e.target.textContent;
+                applyFiltersAndSort();
+                // Chiudi dropdown relativo
+                const dropdowns = [];
+                if (sortDropdown) dropdowns.push(sortDropdown);
+                if (sortDropdownMobile) dropdowns.push(sortDropdownMobile);
+                const icons = [];
+                if (sortIcon) icons.push(sortIcon);
+                if (sortIconMobile) icons.push(sortIconMobile);
+                dropdowns.forEach(dd => {
+                    dd.classList.add('hidden');
+                    dd.classList.remove('show');
+                });
+                icons.forEach(icon => icon.classList.remove('rotate-180'));
+            });
+        });
+        // Navbar JS
+        const dropdownToggle = document.getElementById("dropdown-toggle");
+        const dropdownMenu = document.getElementById("dropdown-menu");
+        const dropdownIcon = document.getElementById("nav-icon");
+        dropdownToggle.addEventListener("click", () => {
+            const hidden = dropdownMenu.classList.contains("hidden");
+            dropdownMenu.classList.toggle("hidden");
+            dropdownIcon.classList.toggle("rotate-180");
+            if (hidden) setTimeout(() => dropdownMenu.classList.add("show"), 10);
+            else dropdownMenu.classList.remove("show");
+        });
+        // --- Chiudi cliccando fuori ---
+        document.addEventListener("click", (e) => {
+            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add("hidden");
+                dropdownMenu.classList.remove("show");
+                dropdownIcon.classList.remove("rotate-180");
+                subMenu.classList.add("hidden");
+                subIcon.classList.remove("rotate-90");
+            }
+            if (!filterToggle.contains(e.target) && !filterDropdown.contains(e.target)) {
+                filterDropdown.classList.add("hidden");
+                filterDropdown.classList.remove("show");
+                filterIcon.classList.remove("rotate-180");
+            }
+            if (sortToggle && !sortToggle.contains(e.target) && !sortDropdown.contains(e.target)) {
+                sortDropdown.classList.add("hidden");
+                sortDropdown.classList.remove("show");
+                if (sortIcon) sortIcon.classList.remove("rotate-180");
+            }
+            if (sortToggleMobile && !sortToggleMobile.contains(e.target) && !sortDropdownMobile.contains(e.target)) {
+                sortDropdownMobile.classList.add("hidden");
+                sortDropdownMobile.classList.remove("show");
+                if (sortIconMobile) sortIconMobile.classList.remove("rotate-180");
+            }
+        });
+        // --- Secondo menu (Barche) ---
+        const subToggle = document.getElementById("sub-toggle");
+        const subMenu = document.getElementById("sub-menu");
+        const subIcon = subToggle ? subToggle.querySelector("svg") : null;
+        if (subToggle) {
+            subToggle.addEventListener("click", (e) => {
+                e.stopPropagation(); // evita chiusura del menu principale
+                subMenu.classList.toggle("hidden");
+                if (subIcon) subIcon.classList.toggle("rotate-90");
+                if (!subMenu.classList.contains("hidden")) {
+                    setTimeout(() => subMenu.classList.add("show"), 10);
+                } else {
+                    subMenu.classList.remove("show");
+                }
+            });
+        }
+        // Filtri dropdown JS
+        const filterToggle = document.getElementById('filter-toggle');
+        const filterDropdown = document.getElementById('filter-dropdown');
+        const filterIcon = document.getElementById('filter-icon');
+        filterToggle.addEventListener('click', () => {
+            const isHidden = filterDropdown.classList.contains('hidden');
+            filterDropdown.classList.toggle('hidden');
+            filterIcon.classList.toggle('rotate-180');
+            if (isHidden) setTimeout(() => filterDropdown.classList.add('show'), 10);
+            else filterDropdown.classList.remove('show');
+        });
+        window.addEventListener('resize', () => {
+            document.querySelectorAll('.boat-details').forEach(el => el.classList.remove('active'));
+        });
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

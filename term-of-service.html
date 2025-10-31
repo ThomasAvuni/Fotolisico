@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termini di Servizio - DreamDay</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="dreeam_day_bianco.png"> <!-- Favicon -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-gray-800">
+    <!-- Navbar -->
+    <nav class="navbar">
+          <a href="pagina_principale_finale.html">
+        <div class="navbar-brand">
+            <span>DreamDay</span>
+            <img src="logo-ufficiale.png" class="logo" alt="DreamDay Logo"> 
+        </div></a>
+        <div class="relative">
+            <button id="dropdown-toggle" class="flex items-center text-white focus:outline-none">
+                <span class="mr-2 hidden sm:inline">Menu</span>
+                <svg id="nav-icon" class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+            <div id="dropdown-menu" class="absolute right-0 mt-2 w-44 bg-blue-900 text-white rounded-lg shadow-lg hidden dropdown-anim z-50 flex-col">
+                <a href="pagina_principale_finale.html" class="block px-4 py-2 hover:bg-blue-800 rounded-t-lg">Home</a>
+                <!-- Voce con sottomenu -->
+                <div class="relative group">
+                    <button id="sub-toggle" class="block w-full text-left px-4 py-2 hover:bg-blue-800 flex justify-between items-center">
+                        Barche
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    <!-- Sottomenu -->
+                    <div id="sub-menu" class="absolute right-full top-0 ml-1 w-40 bg-blue-900 rounded-lg shadow-lg hidden flex-col dropdown-anim">
+                        <a href="catalogo_noleggio.html" class="block px-4 py-2 hover:bg-blue-800 rounded-t-lg">Noleggio</a>
+                        <a href="catalogo.html" class="block px-4 py-2 hover:bg-blue-800 rounded-b-lg">Acquisto</a>
+                    </div>
+                </div>
+                <a href="messaggistica.html" class="block px-4 py-2 hover:bg-blue-800 rounded-b-lg">Contattaci</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Contenuto Termini di Servizio -->
+    <section class="pt-28 py-16 px-4 sm:px-6 bg-white">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold text-blue-900 text-center mb-12">Termini di Servizio</h1>
+        <p class="text-center text-gray-600 mb-8">DreamDay - Piattaforma di Compravendita Barche</p>
+        <p class="text-center text-sm text-gray-500 mb-12">Data di entrata in vigore: 21 Ottobre 2025</p>
+        <!-- 1. Introduzione -->
+        <div class="bg-gray-50 rounded-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4">1. INTRODUZIONE</h2>
+            <p class="text-gray-700">
+                Dreamday è una piattaforma che mostra come vetrina imbarcazioni
+                da poter acquistare o noleggiare. Non gestiamo pagamenti dal sito.
+            </p>
+        </div>
+        <!-- 2. Servizi -->
+        <div class="bg-gray-50 rounded-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4">2. SERVIZI OFFERTI</h2>
+            <ul class="list-disc pl-6 text-gray-700 space-y-2">
+                <li>Catalogo online di barche disponibili</li>
+                <li>Sezione Contatti per comunicare con venditori tramite link esterni</li>
+                <li>Dettagli tecnici delle imbarcazioni</li>
+               <li>Newsletter per aggiornamenti sulle inserzioni</li>
+            </ul>
+        </div>
+        <!-- 3. Condizioni d'uso -->
+        <div class="bg-gray-50 rounded-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4">3. CONDIZIONI D'USO</h2>
+            <p class="text-gray-700">
+                <strong>Lingua del sito:</strong> Italiano
+            </p>
+        </div>
+        <!-- 4. Obblighi utenti -->
+        <div class="bg-gray-50 rounded-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4">4. OBBLIGHI DEGLI UTENTI</h2>
+            <ul class="list-disc pl-6 text-gray-700 space-y-2">
+                <li>Fornire informazioni veritiere</li>
+                <li>Non pubblicare contenuti offensivi, illegali o diffamatori</li>
+                <li>Rispettare leggi italiane ed europee relative alla compravendita di imbarcazioni</li>
+                <li>Non usare bot o strumenti automatizzati per accedere al sito</li>
+            </ul>
+        </div>
+        <!-- 5. Transazioni -->
+        <div class="bg-gray-50 rounded-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4">5. TRANSAZIONI</h2>
+           
+            <p class="text-gray-700">
+                Le trattative avvengono al di fuori della piattaforma. Si raccomanda di verificare sempre documenti, proprietà e certificazioni nautiche.
+            </p>
+        </div>
+        <!-- 6. Proprietà intellettuale -->
+        <div class="bg-gray-50 rounded-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4">6. PROPRIETÀ INTELLETTUALE</h2>
+            <p class="text-gray-700">
+                Tutti i contenuti presenti sul sito, comprese immagini, testi e loghi, sono di proprietà esclusiva di DreamDay o dei venditori autorizzati.
+                È vietata la riproduzione senza autorizzazione scritta.
+            </p>
+        </div>
+        <!-- 7. Limitazione di responsabilità -->
+        <div class="bg-gray-50 rounded-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4">7. LIMITAZIONE DI RESPONSABILITÀ</h2>
+            <ul class="list-disc pl-6 text-gray-700 space-y-2">
+                <li>Garantiamo disponibilità o condizioni delle barche</li>
+                <li>Il sito può essere temporaneamente non disponibile per manutenzione</li>
+            </ul>
+        </div>
+        <!-- 8. Legge applicabile -->
+        <div class="bg-gray-50 rounded-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4">8. LEGGE APPLICABILE</h2>
+            <p class="text-gray-700">
+                Legge italiana. <strong>Foro competente: Tribunale di Milano</strong>
+            </p>
+        </div>
+        <!-- Footer info -->
+        <div class="text-center mb-12">
+            <p class="text-gray-600 mb-4">Contattaci: <a href="mailto:info@dreamday.it" class="text-blue-600 hover:underline">info@dreamday.it</a></p>
+            <p class="text-sm text-gray-500">Ultimo aggiornamento: 21 Ottobre 2025</p>
+        </div>
+        <div class="back-btn-term">
+            <a href="pagina_principale_finale.html"> 
+          <button class="Btn-term">
+  
+           <div class="sign-term">
+          <svg viewBox="0 0 512 512">
+        <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z">
+        </path></svg></div>
+  
+        <div class="text-term">Go back</div>
+    </button> </a>
+
+
+
+        </div>
+    </div>
+</section>
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-6 mt-10">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="copyright">
+                © <span id="year">2025</span> DreamDay <br>
+                Riproduzione, distribuzione e utilizzo dei contenuti <br>
+                sono vietati senza previa autorizzazione.
+                <div class="footer-links">
+                    <a href="privacy-policy.html">Privacy Policy</a> |
+                    <a href="term-of-service.html">Termini di Servizio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Script Menu -->
+
+      <script>
+          document.addEventListener("contextmenu",function(event){
+            alert("Inspect Elements Not Allowed");
+            event.preventDefault();
+          })</script> 
+
+    <script>
+        const dropdownToggle = document.getElementById("dropdown-toggle");
+        const dropdownMenu = document.getElementById("dropdown-menu");
+        const dropdownIcon = document.getElementById("nav-icon");
+        dropdownToggle.addEventListener("click", () => {
+            const hidden = dropdownMenu.classList.contains("hidden");
+            dropdownMenu.classList.toggle("hidden");
+            dropdownIcon.classList.toggle("rotate-180");
+            if (hidden) setTimeout(() => dropdownMenu.classList.add("show"), 10);
+            else dropdownMenu.classList.remove("show");
+        });
+        // --- Chiudi cliccando fuori ---
+        document.addEventListener("click", (e) => {
+            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add("hidden");
+                dropdownMenu.classList.remove("show");
+                dropdownIcon.classList.remove("rotate-180");
+                subMenu.classList.add("hidden");
+                subIcon.classList.remove("rotate-90");
+            }
+        });
+        // --- Secondo menu (Barche) ---
+        const subToggle = document.getElementById("sub-toggle");
+        const subMenu = document.getElementById("sub-menu");
+        const subIcon = subToggle.querySelector("svg");
+        subToggle.addEventListener("click", (e) => {
+            e.stopPropagation(); // evita chiusura del menu principale
+            subMenu.classList.toggle("hidden");
+            subIcon.classList.toggle("rotate-90");
+            if (!subMenu.classList.contains("hidden")) {
+                setTimeout(() => subMenu.classList.add("show"), 10);
+            } else {
+                subMenu.classList.remove("show");
+            }
+        });
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
