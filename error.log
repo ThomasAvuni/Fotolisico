@@ -8,3 +8,353 @@
 [31-Oct-2025 12:37:31 Europe/Berlin] Database connection error: php_network_getaddresses: getaddrinfo failed: Host sconosciuto. 
 [31-Oct-2025 12:37:36 Europe/Berlin] PHP Warning:  mysqli::__construct(): php_network_getaddresses: getaddrinfo failed: Host sconosciuto.  in C:\xampp\htdocs\Barche\connection.php on line 37
 [31-Oct-2025 12:37:36 Europe/Berlin] Database connection error: php_network_getaddresses: getaddrinfo failed: Host sconosciuto. 
+[31-Oct-2025 13:14:13 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'rm.id_media' in 'order clause' in C:\xampp\htdocs\Fotolisico\index.php:23
+Stack trace:
+#0 C:\xampp\htdocs\Fotolisico\index.php(23): mysqli->query('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fotolisico\index.php on line 23
+[31-Oct-2025 13:14:18 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'rm.id_media' in 'order clause' in C:\xampp\htdocs\Fotolisico\index.php:23
+Stack trace:
+#0 C:\xampp\htdocs\Fotolisico\index.php(23): mysqli->query('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fotolisico\index.php on line 23
+[31-Oct-2025 13:14:54 Europe/Berlin] Processing photos: Array
+(
+    [name] => Array
+        (
+            [0] => download.jpg
+        )
+
+    [full_path] => Array
+        (
+            [0] => download.jpg
+        )
+
+    [type] => Array
+        (
+            [0] => image/jpeg
+        )
+
+    [tmp_name] => Array
+        (
+            [0] => C:\xampp\tmp\phpBF7A.tmp
+        )
+
+    [error] => Array
+        (
+            [0] => 0
+        )
+
+    [size] => Array
+        (
+            [0] => 6610
+        )
+
+)
+
+[31-Oct-2025 13:14:54 Europe/Berlin] Processing videos: Array
+(
+    [name] => Array
+        (
+            [0] => 
+        )
+
+    [full_path] => Array
+        (
+            [0] => 
+        )
+
+    [type] => Array
+        (
+            [0] => 
+        )
+
+    [tmp_name] => Array
+        (
+            [0] => 
+        )
+
+    [error] => Array
+        (
+            [0] => 4
+        )
+
+    [size] => Array
+        (
+            [0] => 0
+        )
+
+)
+
+[31-Oct-2025 13:14:57 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'rm.id_media' in 'field list' in C:\xampp\htdocs\Fotolisico\lista.php:18
+Stack trace:
+#0 C:\xampp\htdocs\Fotolisico\lista.php(18): mysqli->query('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fotolisico\lista.php on line 18
+[31-Oct-2025 13:15:47 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'rm.id_media' in 'field list' in C:\xampp\htdocs\Fotolisico\lista.php:18
+Stack trace:
+#0 C:\xampp\htdocs\Fotolisico\lista.php(18): mysqli->query('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fotolisico\lista.php on line 18
+[31-Oct-2025 13:18:04 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'rm.id_media' in 'order clause' in C:\xampp\htdocs\Fotolisico\index.php:23
+Stack trace:
+#0 C:\xampp\htdocs\Fotolisico\index.php(23): mysqli->query('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fotolisico\index.php on line 23
+[31-Oct-2025 13:21:32 Europe/Berlin] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'rm.id_media' in 'field list' in C:\xampp\htdocs\Fotolisico\lista.php:20
+Stack trace:
+#0 C:\xampp\htdocs\Fotolisico\lista.php(20): mysqli->query('\r\n    SELECT \r\n...')
+#1 {main}
+  thrown in C:\xampp\htdocs\Fotolisico\lista.php on line 20
+[31-Oct-2025 13:23:52 Europe/Berlin] Processing photos: Array
+(
+    [name] => Array
+        (
+            [0] => download.jpg
+            [1] => 5-Black-Men-1-White-Woman-meme-3jacrp.jpg
+        )
+
+    [full_path] => Array
+        (
+            [0] => download.jpg
+            [1] => 5-Black-Men-1-White-Woman-meme-3jacrp.jpg
+        )
+
+    [type] => Array
+        (
+            [0] => image/jpeg
+            [1] => image/jpeg
+        )
+
+    [tmp_name] => Array
+        (
+            [0] => C:\xampp\tmp\phpF578.tmp
+            [1] => C:\xampp\tmp\phpF579.tmp
+        )
+
+    [error] => Array
+        (
+            [0] => 0
+            [1] => 0
+        )
+
+    [size] => Array
+        (
+            [0] => 6610
+            [1] => 78105
+        )
+
+)
+
+[31-Oct-2025 13:23:52 Europe/Berlin] Processing videos: Array
+(
+    [name] => Array
+        (
+            [0] => 
+        )
+
+    [full_path] => Array
+        (
+            [0] => 
+        )
+
+    [type] => Array
+        (
+            [0] => 
+        )
+
+    [tmp_name] => Array
+        (
+            [0] => 
+        )
+
+    [error] => Array
+        (
+            [0] => 4
+        )
+
+    [size] => Array
+        (
+            [0] => 0
+        )
+
+)
+
+[31-Oct-2025 13:26:45 Europe/Berlin] Processing photos: Array
+(
+    [name] => Array
+        (
+            [0] => download.jpg
+            [1] => 5-Black-Men-1-White-Woman-meme-3jacrp.jpg
+            [2] => niGGER.PNG
+            [3] => Progetto senza titolo (1).png
+        )
+
+    [full_path] => Array
+        (
+            [0] => download.jpg
+            [1] => 5-Black-Men-1-White-Woman-meme-3jacrp.jpg
+            [2] => niGGER.PNG
+            [3] => Progetto senza titolo (1).png
+        )
+
+    [type] => Array
+        (
+            [0] => image/jpeg
+            [1] => image/jpeg
+            [2] => image/png
+            [3] => image/png
+        )
+
+    [tmp_name] => Array
+        (
+            [0] => C:\xampp\tmp\php9B26.tmp
+            [1] => C:\xampp\tmp\php9B27.tmp
+            [2] => C:\xampp\tmp\php9B28.tmp
+            [3] => C:\xampp\tmp\php9B58.tmp
+        )
+
+    [error] => Array
+        (
+            [0] => 0
+            [1] => 0
+            [2] => 0
+            [3] => 0
+        )
+
+    [size] => Array
+        (
+            [0] => 6610
+            [1] => 78105
+            [2] => 2320957
+            [3] => 2320957
+        )
+
+)
+
+[31-Oct-2025 13:26:45 Europe/Berlin] Processing videos: Array
+(
+    [name] => Array
+        (
+            [0] => Inserisci Barca - Google Chrome 2025-10-17 11-01-02.mp4
+        )
+
+    [full_path] => Array
+        (
+            [0] => Inserisci Barca - Google Chrome 2025-10-17 11-01-02.mp4
+        )
+
+    [type] => Array
+        (
+            [0] => video/mp4
+        )
+
+    [tmp_name] => Array
+        (
+            [0] => C:\xampp\tmp\php9B69.tmp
+        )
+
+    [error] => Array
+        (
+            [0] => 0
+        )
+
+    [size] => Array
+        (
+            [0] => 5860605
+        )
+
+)
+
+[31-Oct-2025 16:57:09 Europe/Berlin] Processing photos: Array
+(
+    [name] => Array
+        (
+            [0] => download.jpg
+            [1] => 5-Black-Men-1-White-Woman-meme-3jacrp.jpg
+            [2] => niGGER.PNG
+            [3] => Progetto senza titolo (1).png
+            [4] => Progetto senza titolo.png
+        )
+
+    [full_path] => Array
+        (
+            [0] => download.jpg
+            [1] => 5-Black-Men-1-White-Woman-meme-3jacrp.jpg
+            [2] => niGGER.PNG
+            [3] => Progetto senza titolo (1).png
+            [4] => Progetto senza titolo.png
+        )
+
+    [type] => Array
+        (
+            [0] => image/jpeg
+            [1] => image/jpeg
+            [2] => image/png
+            [3] => image/png
+            [4] => image/png
+        )
+
+    [tmp_name] => Array
+        (
+            [0] => C:\xampp\tmp\php394B.tmp
+            [1] => C:\xampp\tmp\php394C.tmp
+            [2] => C:\xampp\tmp\php394D.tmp
+            [3] => C:\xampp\tmp\php395E.tmp
+            [4] => C:\xampp\tmp\php396E.tmp
+        )
+
+    [error] => Array
+        (
+            [0] => 0
+            [1] => 0
+            [2] => 0
+            [3] => 0
+            [4] => 0
+        )
+
+    [size] => Array
+        (
+            [0] => 6610
+            [1] => 78105
+            [2] => 2320957
+            [3] => 2320957
+            [4] => 1026119
+        )
+
+)
+
+[31-Oct-2025 16:57:09 Europe/Berlin] Processing videos: Array
+(
+    [name] => Array
+        (
+            [0] => Inserisci Barca - Google Chrome 2025-10-17 11-01-02.mp4
+        )
+
+    [full_path] => Array
+        (
+            [0] => Inserisci Barca - Google Chrome 2025-10-17 11-01-02.mp4
+        )
+
+    [type] => Array
+        (
+            [0] => video/mp4
+        )
+
+    [tmp_name] => Array
+        (
+            [0] => C:\xampp\tmp\php396F.tmp
+        )
+
+    [error] => Array
+        (
+            [0] => 0
+        )
+
+    [size] => Array
+        (
+            [0] => 5860605
+        )
+
+)
+

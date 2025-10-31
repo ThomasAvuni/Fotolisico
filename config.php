@@ -3,7 +3,7 @@
 define('DB_HOST', 'localhost');
 define('DB_USER', 'giuliano');
 define('DB_PASS', 'prepuzio');
-define('DB_NAME', 'automobile');
+define('DB_NAME', 'dbBarche');
 define('DB_PORT', 3306);
 
 // Configurazione generale del sito
